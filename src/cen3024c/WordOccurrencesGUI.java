@@ -1,7 +1,7 @@
 package cen3024c;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+//import java.util.HashMap;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -119,9 +119,8 @@ public class WordOccurrencesGUI extends Application {
 		GridPane.setConstraints(listTitle, 0, 0);
 		
 		ArrayList<String> poemText = WordOccurrences.readText(textURL, startText, endText);
-		HashMap<String, Integer> results = WordOccurrences.convertArrayListToHashMapAndStoreInDatabase(poemText); // Changed to method that uses database functionality.
-		HashMap<String, Integer> sortedResults = WordOccurrences.sortHashMap(results);
-		String listResultString = WordOccurrences.convertHashMapToString(sortedResults);
+		WordOccurrences.storeWordsInDatabase(poemText); 
+		String listResultString = WordOccurrencesJDBC.getValues(WordOccurrencesJDBC.establishConnection());
 		
 		ListView<String> listResult = new ListView<String>();
 		listResult.getItems().addAll(listResultString);

@@ -2,6 +2,7 @@ package cen3024c;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -23,14 +24,37 @@ public class WordOccurrencesJDBC {
 		String password = "wordOccurrencesUserPW";
 		try {
 			connection = DriverManager.getConnection(serverURL, username, password);
-			System.out.println("Connection established.");
 			return connection;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Connection failed.");
+		System.out.println("Database connection failed.");
 		return null;
 	} // End of establishConnection method.
+	
+	/**
+	 * 
+	 * @param connection
+	 * @return
+	 */
+	public static String getValues(Connection connection) {
+		try {
+			Statement statement = connection.createStatement();
+			String sql = "SELECT * FROM word ORDER BY count DESC";
+			ResultSet queryResult = statement.executeQuery(sql);
+			String result = "";
+			int i = 0;
+			while (queryResult.next() && i < 20){
+				i++;
+				result += i + ". " + queryResult.getString("word") + ", " + queryResult.getInt("count") + "\n";
+			} // End of while loop.
+			return result;
+		} catch (SQLException e) {
+			System.out.println("getValues failed.");
+			e.printStackTrace();
+		} // End of try-catch block.
+		return null;
+	} // End of getValues method.
 	
 	/**
 	 * Inserts word and number of occurrence values into the database where the connection is established.

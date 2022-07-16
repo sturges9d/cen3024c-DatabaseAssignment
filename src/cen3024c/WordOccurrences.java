@@ -38,6 +38,17 @@ public class WordOccurrences {
                 if (inputText.get(j).equalsIgnoreCase(word)) {
                     wordCount++;
                     inputText.remove(j);
+                    // Account for the change in ArrayList size after removing element. 
+                    if(i > 0) {
+                    	i -= 1;
+                    } else {
+                    	i = 0;
+                    } // End of if-else statement.
+                    if(j > 0) {
+                    	j -= 1;
+                    } else {
+                    	j = 0;
+                    } // End of if-else statement.
                 } // End of if statement.
             } // End of for loop.
             results.put(word, wordCount);
@@ -61,6 +72,17 @@ public class WordOccurrences {
                 if (inputText.get(j).equalsIgnoreCase(word)) {
                     wordCount++;
                     inputText.remove(j);
+                    // Account for the change in ArrayList size after removing element. 
+                    if(i > 0) {
+                    	i -= 1;
+                    } else {
+                    	i = 0;
+                    } // End of if-else statement.
+                    if(j > 0) {
+                    	j -= 1;
+                    } else {
+                    	j = 0;
+                    } // End of if-else statement.
                 } // End of if statement.
             } // End of for loop.
             results.put(word, wordCount);
@@ -119,7 +141,7 @@ public class WordOccurrences {
              * Replaces all HTML tags with nothing and replace the special character ’ with '.
              * If the string with all replacements is null, or the readInput variable is false, then exit the loop.
              */
-            while ((inputLine = input.readLine().replaceAll("<[^>]*>", "").replaceAll("’", "'")) != null && readInput) {
+            while ((inputLine = input.readLine().replaceAll("<[^>]*>", "").replaceAll("’", "")) != null && readInput) {
                 // Controls the start of the relevant text to analyze.
                 if (inputLine.equalsIgnoreCase(startText)) {
                     printLines = true;
@@ -140,7 +162,7 @@ public class WordOccurrences {
                 
                 // Splits the String lines into string words and places them into the textToAnalyze array.
                 if (printLines == true && emptyLine == false) {
-                    String outputTextArray[] = inputLine.split("&mdash|[^'a-z[A-Z]]");
+                    String outputTextArray[] = inputLine.split("&mdash|[^'a-z[A-Z]]|\s");
                     for (int i = 0; i < outputTextArray.length; i++) {
                         if (!outputTextArray[i].isEmpty()) {
                             result.add(outputTextArray[i].trim().toLowerCase());
@@ -201,13 +223,24 @@ public class WordOccurrences {
      * @return A HashMap containing (word, number of occurrences) pairs.
      */
 	public static void storeWordsInDatabase(ArrayList<String> inputText) {
-        for (int i = 0; i < inputText.size(); i++) {
+		for (int i = 0; i < inputText.size(); i++) {
             int wordCount = 0;
             String word = inputText.get(i);
             for (int j = 0; j < inputText.size(); j++) {
                 if (inputText.get(j).equalsIgnoreCase(word)) {
                     wordCount++;
                     inputText.remove(j);
+                    // Account for the change in ArrayList size after removing element. 
+                    if(i > 0) {
+                    	i -= 1;
+                    } else {
+                    	i = 0;
+                    } // End of if-else statement.
+                    if(j > 0) {
+                    	j -= 1;
+                    } else {
+                    	j = 0;
+                    } // End of if-else statement.
                 } // End of if statement.
             } // End of for loop.
             WordOccurrencesJDBC.insertValues(WordOccurrencesJDBC.establishConnection(), word, wordCount);
