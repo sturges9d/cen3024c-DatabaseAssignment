@@ -40,11 +40,11 @@ public class WordOccurrencesJDBC {
 	public static String getValues(Connection connection) {
 		try {
 			Statement statement = connection.createStatement();
-			String sql = "SELECT * FROM word ORDER BY count DESC";
+			String sql = "SELECT * FROM word ORDER BY count DESC LIMIT 20";
 			ResultSet queryResult = statement.executeQuery(sql);
 			String result = "";
 			int i = 0;
-			while (queryResult.next() && i < 20){
+			while (queryResult.next()){
 				i++;
 				result += i + ". " + queryResult.getString("word") + ", " + queryResult.getInt("count") + "\n";
 			} // End of while loop.
